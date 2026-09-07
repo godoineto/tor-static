@@ -1,18 +1,26 @@
-FROM ghcr.io/lu4p/cgo-cross:master
+FROM golang:1.26-alpine
 
-# Install build dependencies
+# Install build dependencies for cross-compilation
 RUN apk add --no-cache \
     tor \
     upx \
     wget \
     git \
-    go \
+    gcc \
+    musl-dev \
     autoconf \
     automake \
     libtool \
     pkg-config \
     perl \
-    bash
+    bash \
+    make
+
+# Install MinGW for Windows cross-compilation
+RUN apk add --no-cache \
+    mingw-w64-gcc \
+    mingw-w64-headers \
+    mingw-w64-binutils || echo "Warning: MinGW not available in Alpine, Windows build may fail"
 
 # Set up workspace
 RUN mkdir -p /go/pkg/mod/github.com/cretz

@@ -26,11 +26,13 @@ RUN apk add --no-cache \
 RUN mkdir -p /go/pkg/mod/github.com/cretz
 WORKDIR /go/pkg/mod/github.com/cretz
 
-# Clone tor-static with submodules
-# Using https to avoid SSH key issues in Docker build
-RUN git clone --recursive https://github.com/godoineto/tor-static.git tor-static && \
+# Clone tor-static with submodules (but NOT recursive to skip Rust subdeps)
+# The Rust submódule has URL redirect issues, but we don't need it for static C compilation
+RUN git clone https://github.com/godoineto/tor-static.git tor-static && \
     cd tor-static && \
-    git checkout master
+    git checkout master && \
+    git config --global url."https://".insteadOf git:// && \
+    git submodule update --init --depth 1 openssl libevent zlib xz tor || true
 
 WORKDIR /go/pkg/mod/github.com/cretz/tor-static
 

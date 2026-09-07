@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     autoconf \
     automake \
     libtool \
-    pkg-config \
+    pkgconfig \
     perl \
     bash \
     make

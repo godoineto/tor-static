@@ -2,7 +2,7 @@ module github.com/lu4p/tor-static
 
 go 1.26.0
 
-require github.com/cretz/bine v0.2.0
+require github.com/godoineto/bine v0.2.0-updated
 
 require (
 	golang.org/x/crypto v0.56.0 // indirect
